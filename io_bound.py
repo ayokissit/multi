@@ -50,40 +50,24 @@ URL = 'https://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D1%83%D0%B6%D0%B5%D0%B1%D0%BD%
 """ Открытие каждой ссылки """
 
 
-# def get_links(new_url):
-#     try:
-#         r = requests.get(
-#             new_url,
-#             headers={'User-Agent': 'Mozilla/5.0 (Windows NT 9.0; Win65; x64; rv:97.0) Gecko/20105107 Firefox/92.0'},
-#             timeout=5
-#         )
-#         code = r.status_code
-#         print(code, url)
-#     except Exception as e:
-#         print(url, e)
-#
-from urllib.request import Request, urlopen
-from urllib.parse import unquote
-
-links = open('page_links.txt', encoding='utf8').read().split('\n')
-
-for url in links:
+def get_links(new_url):
     try:
-        request = Request(
-            url,
+        r = requests.get(
+            new_url,
             headers={'User-Agent': 'Mozilla/5.0 (Windows NT 9.0; Win65; x64; rv:97.0) Gecko/20105107 Firefox/92.0'},
+            timeout=5
         )
-        resp = urlopen(request, timeout=5)
-        code = resp.code
-        print(code)
-        resp.close()
+        code = r.status_code
+        print(code, url)
     except Exception as e:
         print(url, e)
-# urls = open('page_links.txt', encoding='utf8').read().split('\n')
-#
-# with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
-#     for url in urls:
-#         execute = executor.submit(get_links, url)
+
+
+urls = open('page_links.txt', encoding='utf8').read().split('\n')
+
+with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
+    for url in urls:
+        execute = executor.submit(get_links, url)
 
 
 """ Вывод: время работы значительно сокращается при использовании ThreadPoolExecutor, нежели
