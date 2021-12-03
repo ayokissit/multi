@@ -48,7 +48,7 @@ PRIMES = [
     115797848077099,
     1099726899285419]
 
-def is_prime(n):
+def find_token(n):
     if n < 2:
         return False
     if n == 2:
@@ -64,7 +64,7 @@ def is_prime(n):
 
 def main():
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        for number, prime in zip(PRIMES, executor.map(is_prime, PRIMES)):
+        for number, prime in zip(PRIMES, executor.map(find_token, PRIMES)):
             print('%d is prime: %s' % (number, prime))
 
 if __name__ == '__main__':
